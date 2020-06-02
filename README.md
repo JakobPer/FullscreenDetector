@@ -1,6 +1,8 @@
 # FullscreenDetector
 A program that stops a process when the focused window is in fullsceen. If the focus switches to a non fullscreen window, the stopped process is started again.
 
+[Download here!](https://github.com/JakobPer/FullscreenDetector/releases)
+
 ## How to build
 
 Open the .sln file in Visual Studio 2019 and build the FullsreenDetectorGUI Project.
