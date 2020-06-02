@@ -8,9 +8,9 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("FullscreenDetectorGUI")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Detects Fullscreen apps to close/reopen a specific process")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("JakobPer")]
 [assembly: AssemblyProduct("FullscreenDetectorGUI")]
 [assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("")]

@@ -5,10 +5,28 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FullscreenDetectorGUI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <Label Content="Process:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <ComboBox HorizontalAlignment="Left" Margin="0
-                  " VerticalAlignment="Top" Grid.Column="1" />
-    </Grid>
+        Title="Settings" Height="183.283" Width="581.155">
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Bottom" FlowDirection="LeftToRight" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Name="btnCancel" Click="BtnCancel_OnClick" HorizontalAlignment="Right" Margin="3" Width="50">Cancel</Button>
+            <Button Name="btnOk" Click="BtnOk_OnClick" HorizontalAlignment="Right" HorizontalContentAlignment="Center" Margin="0,3,3,3" Width="50">Ok</Button>
+        </StackPanel>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Label Content="Current process:"></Label>
+            <Label Name="labelCurrent" Content="None" Grid.Column="1"></Label>
+            <Label Content="New process:" VerticalAlignment="Top" Grid.Row="1"/>
+            <ComboBox Name="comboProcesses"  Margin="0
+                  " VerticalAlignment="Top" Grid.Column="1" Grid.Row="1"/>
+            <CheckBox Name="cbAutostart" Grid.Column="1" Grid.Row="2" IsChecked="True"> Add to Autostart</CheckBox>
+        </Grid>
+    </DockPanel>
 </Window>

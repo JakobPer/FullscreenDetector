@@ -1,23 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Windows.Automation;
-using System.Runtime.CompilerServices;
+using System.Windows.Forms;
 
 namespace FullscreenDetector
 {
-    class Program
+    public class FullscreenDetector
     {
-        private static string processName;
-        private static bool killedProcess;
-        private static string processPath;
+        public static string processName = "";
+        private static bool killedProcess = false;
+        private static string processPath = "";
         private static Object syncObj = new Object();
 
         [StructLayout(LayoutKind.Sequential)]
@@ -45,13 +38,13 @@ namespace FullscreenDetector
 
         public static bool IsForegroundFullScreen(System.Windows.Forms.Screen screen, String excludedProcess)
         {
-
             if (screen == null)
             {
                 screen = System.Windows.Forms.Screen.PrimaryScreen;
             }
+
             RECT rect = new RECT();
-            IntPtr hWnd = (IntPtr)GetForegroundWindow();
+            IntPtr hWnd = (IntPtr) GetForegroundWindow();
 
 
             GetWindowRect(new HandleRef(null, hWnd), ref rect);
@@ -59,9 +52,9 @@ namespace FullscreenDetector
             /* in case you want the process name:*/
             uint procId = 0;
             GetWindowThreadProcessId(hWnd, out procId);
-            var proc = System.Diagnostics.Process.GetProcessById((int)procId);
+            var proc = System.Diagnostics.Process.GetProcessById((int) procId);
             // check excluded processes
-            if(proc.ProcessName.Equals(excludedProcess) || proc.ProcessName.Equals("explorer"))
+            if (proc.ProcessName.Equals(excludedProcess) || proc.ProcessName.Equals("explorer"))
             {
                 return false;
             }
@@ -84,7 +77,7 @@ namespace FullscreenDetector
             }
 
             RECT rect = new RECT();
-            IntPtr hWnd = (IntPtr)GetForegroundWindow();
+            IntPtr hWnd = (IntPtr) GetForegroundWindow();
 
 
             GetWindowRect(new HandleRef(null, hWnd), ref rect);
@@ -92,28 +85,17 @@ namespace FullscreenDetector
             /* in case you want the process name:*/
             uint procId = 0;
             GetWindowThreadProcessId(hWnd, out procId);
-            return Process.GetProcessById((int)procId);
+            return Process.GetProcessById((int) procId);
         }
 
-        private static void OnFocusChangedHandler(object src, AutomationFocusChangedEventArgs args)
+        public static void OnFocusChangedHandler(object src, AutomationFocusChangedEventArgs args)
         {
             Console.WriteLine("Focus changed!");
-            /*AutomationElement element = src as AutomationElement;
-            if (element != null)
-            {
-                string name = element.Current.Name;
-                string id = element.Current.AutomationId;
-                int processId = element.Current.ProcessId;
-                using (Process process = Process.GetProcessById(processId))
-                {
-                    Console.WriteLine("  Name: {0}, Id: {1}, Process: {2}", name, id, process.ProcessName);
-                }
-            }*/
 
             CheckFullscreenApp();
         }
 
-        private static void CheckFullscreenApp()
+        public static void CheckFullscreenApp()
         {
             lock (syncObj)
             {
@@ -132,6 +114,7 @@ namespace FullscreenDetector
                             break;
                         }
                     }
+
                     if (!killedProcess)
                     {
                         Console.WriteLine("Process could not be found!");
@@ -147,38 +130,6 @@ namespace FullscreenDetector
                     }
                 }
             }
-        }
-
-        static int Main(string[] args)
-        {
-            if(args.Length < 1)
-            {
-                Console.WriteLine("Not enough arguments");
-                return -1;
-            }
-
-            var proc = Process.GetProcessesByName("FullscreenDetector");
-            if(proc.Length > 1)
-            {
-                Console.WriteLine("Process already running");
-                return -1;
-            }
-
-            processName = args[0];
-            processPath = "";
-            killedProcess = false;
-
-            Console.WriteLine("Process to kill and restart: " + processName);
-            Console.WriteLine("Looking for fullsceen app.");
-
-            Automation.AddAutomationFocusChangedEventHandler(OnFocusChangedHandler);
-
-            while (true)
-            {
-                CheckFullscreenApp();
-                Thread.Sleep(1000);
-            }
-
         }
     }
 }
